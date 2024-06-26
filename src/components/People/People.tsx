@@ -48,7 +48,7 @@ const People = () => {
         <div className='container_item'>
           <h1 style={{ color: 'White' }}>Star Wars People</h1>
 
-          <div className='container_persons'>
+          <div className='container_persons '>
             {people.map((person, index) => (
               <div key={index} className='container_person_details'>
                 <p>Name: {person.name}</p>

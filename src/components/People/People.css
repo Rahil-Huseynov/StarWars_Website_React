@@ -68,3 +68,6 @@
 .person_image{
     width: 300px;
 }
+.person_image{
+    border-radius: 10%;
+}

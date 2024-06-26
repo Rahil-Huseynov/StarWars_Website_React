@@ -62,7 +62,7 @@ const Starships = () => {
                 </div>
 
                 <div className='container_item'>
-                    <h1 style={{ color: 'White' }}>Star Wars Species</h1>
+                    <h1 style={{ color: 'White' }}>Star Wars Starships</h1>
 
                     <div className='container_persons'>
                         {starships.map((starships, index) => (

@@ -62,7 +62,7 @@ const Vehicle = () => {
                 </div>
 
                 <div className='container_item'>
-                    <h1 style={{ color: 'White' }}>Star Wars Species</h1>
+                    <h1 style={{ color: 'White' }}>Star Wars Vehicle</h1>
 
                     <div className='container_persons'>
                         {vehicle.map((vehicle, index) => (
