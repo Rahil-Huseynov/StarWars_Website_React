@@ -1,0 +1,30 @@
+body {
+  background-image: url("assets/Star-wars-logo-new-tall-ezgif.com-webp-to-jpg-converter.jpg");
+  background-clip: border-box;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 8rem;
+  text-decoration: none;
+  padding-top: 1rem;
+}
+
+.navbar_items {
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
+.navbar_items:hover {
+  text-decoration: underline;
+  color: yellow;
+  text-decoration-color: blue;
+}
+
+#navbar a.active {
+  color: red;
+}
