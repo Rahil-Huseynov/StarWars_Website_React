@@ -27,4 +27,6 @@ body {
 
 #navbar a.active {
   color: red;
+  text-decoration: underline;
+  text-decoration-color: turquoise;
 }
