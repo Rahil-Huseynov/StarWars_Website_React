@@ -1,3 +1,7 @@
+body{
+    padding: 0;
+    margin: 0;
+}
 .container {
     background-image: url("/src/assets/star.jpg");
     background-clip: border-box;    
