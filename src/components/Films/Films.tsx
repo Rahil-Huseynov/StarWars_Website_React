@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
-
-import './Films.css';
-
 import { NavLink } from 'react-router-dom';
+import './Films.css';
 
 const Films = () => {
     interface Film {
@@ -17,8 +15,9 @@ const Films = () => {
 
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
+    const [search, setSearch] = useState('');
 
+    useEffect(() => {
         const Films = async () => {
 
             setLoading(true);
@@ -30,11 +29,23 @@ const Films = () => {
             setFilms(data.results);
 
             setLoading(false);
+
         };
 
         Films();
-
     }, []);
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        setSearch(e.target.value.toLowerCase());
+
+    };
+
+    const filteredFilms = films.filter(film =>
+
+        film.title.toLowerCase().includes(search)
+
+    );
 
     return (
         <>
@@ -49,13 +60,20 @@ const Films = () => {
                     <NavLink className="navbar_items" to='/vehicles'>Vehicles</NavLink>
                 </div>
 
+                <div className='title_container'>
+                    <div>
+                        <h1 style={{ color: 'White' }}>Star Wars Films</h1>
+                    </div>
+
+                    {!loading && (<div className='container_input'>
+                        <input className='search' type="text" placeholder="Search by title" value={search} onChange={handleSearch} />
+                    </div>)}
+
+                </div>
+
                 <div className='container_item'>
-                    <h1 style={{ color: 'White' }}>Star Wars Films</h1>
-
                     <div className='container_persons'>
-
-                        {films.map((film, index) => (
-
+                        {filteredFilms.map((film, index) => (
                             <div key={index} className='container_person_details'>
                                 <p>Title: {film.title}</p>
                                 <p>Opening Crawl: {film.opening_crawl}</p>
@@ -66,13 +84,9 @@ const Films = () => {
                                     <img className='person_image' src="/src/assets/Flims.avif" alt="" />
                                 </div>
                             </div>
-
                         ))}
-
                     </div>
-
                     {loading && <div className='loader_container'><div className="loader"></div></div>}
-
                 </div>
             </div>
         </>

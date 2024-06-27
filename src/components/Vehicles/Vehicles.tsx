@@ -23,6 +23,9 @@ const Vehicle = () => {
 
     const [loading, setLoading] = useState(false);
 
+    const [search, setSearch] = useState('');
+
+
     useEffect(() => {
 
         const Vehicle = async () => {
@@ -41,6 +44,20 @@ const Vehicle = () => {
         Vehicle();
 
     }, [page]);
+
+
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        setSearch(e.target.value.toLowerCase());
+
+    };
+
+    const filteredvehicle = vehicle.filter(vehicle =>
+
+        vehicle.name.toLowerCase().includes(search)
+
+    );
 
     const loadMore = () => {
         if (page < 4) {
@@ -61,11 +78,21 @@ const Vehicle = () => {
                     <NavLink className="navbar_items" to='/vehicles'>Vehicles</NavLink>
                 </div>
 
-                <div className='container_item'>
-                    <h1 style={{ color: 'White' }}>Star Wars Vehicle</h1>
 
+                <div className='title_container'>
+                    <div>
+                        <h1 style={{ color: 'White' }}>Star Wars Vehicles</h1>
+                    </div>
+
+                    {!loading && page < 9 && (<div className='container_input'>
+                        <input className='search' type="text" placeholder="Search by title" value={search} onChange={handleSearch} />
+                    </div>)}
+
+                </div>
+
+                <div className='container_item'>
                     <div className='container_persons'>
-                        {vehicle.map((vehicle, index) => (
+                        {filteredvehicle.map((vehicle, index) => (
 
                             <div key={index} className='container_person_details'>
                                 <p>Name: {vehicle.name}</p>

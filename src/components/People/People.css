@@ -1,18 +1,31 @@
-body{
+body {
     padding: 0;
     margin: 0;
 }
+
 .container {
     background-image: url("/src/assets/star.jpg");
-    background-clip: border-box;    
+    background-clip: border-box;
 }
 
-.container_item{
+.navbar{
+    padding-top: 2rem;
+}
+
+.container_item {
     display: grid;
     gap: 2rem;
     padding-top: 2rem;
     padding-bottom: 2rem;
     justify-content: center;
+    min-height: 100vh;
+}
+
+.title_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-top: 2rem;
 }
 
 .container_persons {
@@ -43,7 +56,7 @@ body{
 }
 
 .loader_container {
-    display: flex;
+    display: grid;
     justify-content: center;
 }
 
@@ -69,9 +82,24 @@ body{
     }
 }
 
-.person_image{
+.person_image {
     width: 300px;
 }
-.person_image{
+
+.person_image {
     border-radius: 10%;
+}
+
+.search {
+    width: 200px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background-color: transparent;
+    color: white;
+}
+
+
+.search:focus {
+    outline: none;
 }

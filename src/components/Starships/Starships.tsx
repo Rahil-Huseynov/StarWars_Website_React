@@ -23,6 +23,8 @@ const Starships = () => {
 
     const [loading, setLoading] = useState(false);
 
+    const [search, setSearch] = useState('');
+
     useEffect(() => {
 
         const Starships = async () => {
@@ -41,6 +43,21 @@ const Starships = () => {
         Starships();
 
     }, [page]);
+
+
+
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        setSearch(e.target.value.toLowerCase());
+
+    };
+
+    const filteredstarships = starships.filter(starships =>
+
+        starships.name.toLowerCase().includes(search)
+
+    );
 
     const loadMore = () => {
         if (page < 4) {
@@ -61,11 +78,22 @@ const Starships = () => {
                     <NavLink className="navbar_items" to='/vehicles'>Vehicles</NavLink>
                 </div>
 
-                <div className='container_item'>
-                    <h1 style={{ color: 'White' }}>Star Wars Starships</h1>
 
+                <div className='title_container'>
+                    <div>
+                        <h1 style={{ color: 'White' }}>Star Wars Starships</h1>
+                    </div>
+
+                    {!loading && page < 9 && (<div className='container_input'>
+                        <input className='search' type="text" placeholder="Search by title" value={search} onChange={handleSearch} />
+                    </div>)}
+
+                </div>
+
+
+                <div className='container_item'>
                     <div className='container_persons'>
-                        {starships.map((starships, index) => (
+                        {filteredstarships.map((starships, index) => (
 
                             <div key={index} className='container_person_details'>
                                 <p>Name: {starships.name}</p>

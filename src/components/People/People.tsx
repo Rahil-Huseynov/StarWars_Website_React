@@ -13,6 +13,7 @@ const People = () => {
   const [people, setPeople] = useState<Person[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     const People = async () => {
@@ -31,50 +32,68 @@ const People = () => {
       setPage(prevPage => prevPage + 1);
     }
   };
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 
+    setSearch(e.target.value.toLowerCase());
+
+  };
+
+  const filteredPeople = people.filter(people =>
+
+    people.name.toLowerCase().includes(search)
+
+  );
   return (
     <>
       <div className='container'>
-        <div className="navbar" id="navbar">
-          <NavLink className="navbar_items" to='/'>Home</NavLink>
-          <NavLink className="navbar_items" to='/people'>People</NavLink>
-          <NavLink className="navbar_items" to='/films'>Films</NavLink>
-          <NavLink className="navbar_items" to='/planets'>Planets</NavLink>
-          <NavLink className="navbar_items" to='/species'>Species</NavLink>
-          <NavLink className="navbar_items" to='/starships'>Starships</NavLink>
-          <NavLink className="navbar_items" to='/vehicles'>Vehicles</NavLink>
+          <div className="navbar" id="navbar">
+            <NavLink className="navbar_items" to='/'>Home</NavLink>
+            <NavLink className="navbar_items" to='/people'>People</NavLink>
+            <NavLink className="navbar_items" to='/films'>Films</NavLink>
+            <NavLink className="navbar_items" to='/planets'>Planets</NavLink>
+            <NavLink className="navbar_items" to='/species'>Species</NavLink>
+            <NavLink className="navbar_items" to='/starships'>Starships</NavLink>
+            <NavLink className="navbar_items" to='/vehicles'>Vehicles</NavLink>
+          </div>
+        <div className='title_container'>
+          <div>
+            <h1 style={{ color: 'White' }}>Star Wars People</h1>
+          </div>
+
+          {!loading && page < 9 && (<div className='container_input'>
+            <input className='search' type="text" placeholder="Search by title" value={search} onChange={handleSearch} />
+          </div>)}
+
         </div>
 
         <div className='container_item'>
-          <h1 style={{ color: 'White' }}>Star Wars People</h1>
-
           <div className='container_persons '>
-            {people.map((person, index) => (
+            {filteredPeople.map((person, index) => (
               <div key={index} className='container_person_details'>
                 <p>Name: {person.name}</p>
                 <p>Height: {person.height}</p>
                 <p>Mass: {person.mass}</p>
                 <p>Gender: {person.gender}</p>
                 <div className='person_image_container'>
-                <img className='person_image' src="/src/assets/person.jpg" alt="" />
+                  <img className='person_image' src="/src/assets/person.jpg" alt="" />
                 </div>
               </div>
             ))}
           </div>
-
-          {loading && <div className='loader_container'><div className="loader"></div></div>}
-
-          <div className='link_container'>
-            {!loading && page < 9 && (
-              <Link to='#' onClick={loadMore}>
-                <img className='loadmore' src="/src/assets/more-or-less.png" />
-              </Link>
-            )}
-          </div>
         </div>
+
+        {loading && <div className='loader_container'><div className="loader"></div></div>}
+
+        <div className='link_container'>
+          {!loading && page < 9 && (
+            <Link to='#' onClick={loadMore}>
+              <img className='loadmore' src="/src/assets/more-or-less.png" />
+            </Link>
+          )}
         </div>
-      </>
-      );
+      </div>
+    </>
+  );
 };
 
-      export default People;
+export default People;

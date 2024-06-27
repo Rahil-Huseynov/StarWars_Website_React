@@ -22,6 +22,9 @@ const Species = () => {
 
     const [loading, setLoading] = useState(false);
 
+    const [search, setSearch] = useState('');
+
+
     useEffect(() => {
 
         const Species = async () => {
@@ -40,6 +43,20 @@ const Species = () => {
         Species();
 
     }, [page]);
+
+
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        setSearch(e.target.value.toLowerCase());
+
+    };
+
+    const filteredSpecies = species.filter(species =>
+
+        species.name.toLowerCase().includes(search)
+
+    );
 
     const loadMore = () => {
         if (page < 4) {
@@ -60,11 +77,21 @@ const Species = () => {
                     <NavLink className="navbar_items" to='/vehicles'>Vehicles</NavLink>
                 </div>
 
-                <div className='container_item'>
-                    <h1 style={{ color: 'White' }}>Star Wars Species</h1>
+                <div className='title_container'>
+                    <div>
+                        <h1 style={{ color: 'White' }}>Star Wars Species</h1>
+                    </div>
 
+                    {!loading && page < 9 && (<div className='container_input'>
+                        <input className='search' type="text" placeholder="Search by title" value={search} onChange={handleSearch} />
+                    </div>)}
+
+                </div>
+
+                <div className='container_item'>
                     <div className='container_persons'>
-                        {species.map((species, index) => (
+
+                        {filteredSpecies.map((species, index) => (
 
                             <div key={index} className='container_person_details'>
                                 <p>Name: {species.name}</p>

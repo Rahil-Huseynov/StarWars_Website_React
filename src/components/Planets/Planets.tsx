@@ -19,6 +19,8 @@ const Planets = () => {
 
     const [loading, setLoading] = useState(false);
 
+    const [search, setSearch] = useState('');
+
     useEffect(() => {
 
         const Planets = async () => {
@@ -36,6 +38,19 @@ const Planets = () => {
 
         Planets();
     }, [page]);
+
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        setSearch(e.target.value.toLowerCase());
+
+    };
+
+    const filteredplanet = planet.filter(planet =>
+
+        planet.name.toLowerCase().includes(search)
+
+    );
 
     const loadMore = () => {
         if (page < 6) {
@@ -56,11 +71,21 @@ const Planets = () => {
                     <NavLink className="navbar_items" to='/vehicles'>Vehicles</NavLink>
                 </div>
 
-                <div className='container_item'>
-                    <h1 style={{ color: 'White' }}>Star Wars Planets</h1>
 
+                <div className='title_container'>
+                    <div>
+                        <h1 style={{ color: 'White' }}>Star Wars Planets</h1>
+                    </div>
+
+                    {!loading && page < 9 && (<div className='container_input'>
+                        <input className='search' type="text" placeholder="Search by title" value={search} onChange={handleSearch} />
+                    </div>)}
+
+                </div>
+
+                <div className='container_item'>
                     <div className='container_persons'>
-                        {planet.map((planets, index) => (
+                        {filteredplanet.map((planets, index) => (
                             <div key={index} className='container_person_details'>
                                 <p>Name: {planets.name}</p>
                                 <p>Rotation Period: {planets.rotation_period}</p>
