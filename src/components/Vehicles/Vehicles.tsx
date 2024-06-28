@@ -2,20 +2,57 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Vehicles.css'
 
-const Vehicle = () => {
+interface IVehicle {
+    name: string;
+    model: string;
+    manufacturer: string;
+    cost_in_credits: string;
+    length: string;
+    max_atmosphering_speed: string;
+    crew: string;
+    passengers: string;
+    cargo_capacity: string;
+}
 
-    interface IVehicle {
-        name: string;
-        model: string;
-        manufacturer: string;
-        cost_in_credits: string;
-        length: string;
-        max_atmosphering_speed: string;
-        crew: string;
-        passengers: string;
-        cargo_capacity: string;
-        vehicle_class: string
-    }
+
+const Modal = ({ vehicle, onClose }: { vehicle: IVehicle | null, onClose: () => void }) => {
+    useEffect(() => {
+        if (vehicle) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [vehicle]);
+
+    if (!vehicle) return null;
+
+    return (
+        <>
+            <div className="modal-backdrop" onClick={onClose}></div>
+            <div className="modal">
+                <div className="modal_content">
+                    <span className="close" onClick={onClose} style={{ color: 'red' }}>&times;</span>
+                    <div className="modal_content_items">
+                        <p>Name: {vehicle.name}</p>
+                        <p>Model: {vehicle.model}</p>
+                        <p>Manufacturer: {vehicle.manufacturer}</p>
+                        <p>Cost in Credits: {vehicle.cost_in_credits}</p>
+                        <p>Length: {vehicle.length}</p>
+                        <p>Max Atmosphering Speed: {vehicle.max_atmosphering_speed}</p>
+                        <p>Crew: {vehicle.crew}</p>
+                        <p>Passengers: {vehicle.passengers}</p>
+                        <p>Cargo Capacity: {vehicle.cargo_capacity}</p>
+                        <div className='person_image_container'>
+                            <img className='person_image' src="/src/assets/vehicles.jpeg" alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
+const Vehicle = () => {
 
     const [vehicle, setVehicle] = useState<IVehicle[]>([]);
 
@@ -24,6 +61,8 @@ const Vehicle = () => {
     const [loading, setLoading] = useState(false);
 
     const [search, setSearch] = useState('');
+
+    const [selectedVehicle, setSelectedVehicle] = useState<IVehicle | null>(null);
 
 
     useEffect(() => {
@@ -96,18 +135,13 @@ const Vehicle = () => {
 
                             <div key={index} className='container_person_details'>
                                 <p>Name: {vehicle.name}</p>
-                                <p>Model: {vehicle.model}</p>
-                                <p>Manufacturer: {vehicle.manufacturer}</p>
-                                <p>Cost in Credits: {vehicle.cost_in_credits}</p>
-                                <p>Length: {vehicle.length}</p>
-                                <p>Max Atmosphering Speed: {vehicle.max_atmosphering_speed}</p>
-                                <p>Crew: {vehicle.crew}</p>
-                                <p>Passengers: {vehicle.passengers}</p>
-                                <p>Cargo Capacity: {vehicle.cargo_capacity}</p>
-                                <p>Vehicle Class: {vehicle.vehicle_class}</p>
+
                                 <div className='person_image_container'>
                                     <img className='person_image' src="/src/assets/vehicles.jpeg" alt="" />
                                 </div>
+
+                                <Link to="#" onClick={() => setSelectedVehicle(vehicle)}> <img className='loadmore' src="/src/assets/read-more.png " alt="" /></Link>
+
                             </div>
                         ))}
                     </div>
@@ -123,6 +157,9 @@ const Vehicle = () => {
                     </div>
                 </div>
             </div>
+
+            <Modal vehicle={selectedVehicle} onClose={() => setSelectedVehicle(null)} />
+
         </>
     );
 };

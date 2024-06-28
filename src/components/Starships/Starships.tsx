@@ -2,20 +2,55 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Starships.css'
 
+interface IStarships {
+    name: string;
+    model: string;
+    manufacturer: string;
+    cost_in_credits: string;
+    length: string;
+    max_atmosphering_speed: string;
+    crew: string;
+}
+
+
+const Modal = ({ starships , onClose }: { starships: IStarships | null, onClose: () => void }) => {
+    useEffect(() => {
+        if (starships) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [starships]);
+
+    if (!starships) return null;
+
+    return (
+        <>
+            <div className="modal-backdrop" onClick={onClose}></div>
+            <div className="modal">
+                <div className="modal_content">
+                    <span className="close" onClick={onClose} style={{ color: 'red' }}>&times;</span>
+                    <div className="modal_content_items">
+                        <p>Name: {starships.name}</p>
+                        <p>Model: {starships.model}</p>
+                        <p>Manufacturer: {starships.manufacturer}</p>
+                        <p>Cost in Credits: {starships.cost_in_credits}</p>
+                        <p>Length: {starships.length}</p>
+                        <p>Max Atmosphering Speed: {starships.max_atmosphering_speed}</p>
+                        <p>Crew: {starships.crew}</p>
+                        <div className='person_image_container'>
+                            <img className='person_image' src="/src/assets/starships.jpg" alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
+
 const Starships = () => {
 
-    interface IStarships {
-        name: string;
-        model: string;
-        manufacturer: string;
-        cost_in_credits: string;
-        length: string;
-        max_atmosphering_speed: string;
-        crew: string;
-        passengers: string;
-        cargo_capacity: string;
-
-    }
 
     const [starships, setStarships] = useState<IStarships[]>([]);
 
@@ -24,6 +59,9 @@ const Starships = () => {
     const [loading, setLoading] = useState(false);
 
     const [search, setSearch] = useState('');
+
+    const [selectedStarships, setSelectedStarships] = useState<IStarships | null>(null);
+
 
     useEffect(() => {
 
@@ -97,17 +135,13 @@ const Starships = () => {
 
                             <div key={index} className='container_person_details'>
                                 <p>Name: {starships.name}</p>
-                                <p>Model: {starships.model}</p>
-                                <p>Manufacturer: {starships.manufacturer}</p>
-                                <p>Cost in Credits: {starships.cost_in_credits}</p>
-                                <p>Length: {starships.length}</p>
-                                <p>Max Atmosphering Speed: {starships.max_atmosphering_speed}</p>
-                                <p>Crew: {starships.crew}</p>
-                                <p>Passengers: {starships.passengers}</p>
-                                <p>Cargo Capacity: {starships.cargo_capacity}</p>
+
                                 <div className='person_image_container'>
                                     <img className='person_image' src="/src/assets/starships.jpg" alt="" />
                                 </div>
+
+                                <Link to="#" onClick={() => setSelectedStarships(starships)}> <img className='loadmore' src="/src/assets/read-more.png " alt="" /></Link>
+
                             </div>
                         ))}
                     </div>
@@ -123,6 +157,9 @@ const Starships = () => {
                     </div>
                 </div>
             </div>
+
+            <Modal starships={selectedStarships} onClose={() => setSelectedStarships(null)} />
+
         </>
     );
 };

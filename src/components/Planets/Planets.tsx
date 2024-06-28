@@ -2,17 +2,55 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Planets.css'
 
+interface IPlanet {
+    name: string;
+    rotation_period: string;
+    orbital_period: string;
+    diameter: string;
+    climate: string;
+    terrain: string;
+    population: string;
+}
+
+
+const Modal = ({ planet, onClose }: { planet: IPlanet | null, onClose: () => void }) => {
+    useEffect(() => {
+        if (planet) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [planet]);
+
+    if (!planet) return null;
+
+    return (
+        <>
+            <div className="modal-backdrop" onClick={onClose}></div>
+            <div className="modal">
+                <div className="modal_content">
+                    <span className="close" onClick={onClose} style={{ color: 'red' }}>&times;</span>
+                    <div className="modal_content_items">
+                        <p>Name: {planet.name}</p>
+                        <p>Rotation Period: {planet.rotation_period}</p>
+                        <p>Orbital Period: {planet.orbital_period}</p>
+                        <p>Diameter: {planet.diameter}</p>
+                        <p>Climate: {planet.climate}</p>
+                        <p>Terrain: {planet.terrain}</p>
+                        <p>Population: {planet.population}</p>
+                        <div className='person_image_container'>
+                            <img className='person_image' src="/src/assets/planet.jpeg" alt="planet" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
+
 const Planets = () => {
 
-    interface IPlanet {
-        name: string;
-        rotation_period: string;
-        orbital_period: string;
-        diameter: string;
-        climate: string;
-        terrain: string;
-        population: string;
-    }
     const [planet, setplanet] = useState<IPlanet[]>([]);
 
     const [page, setPage] = useState(1);
@@ -20,6 +58,9 @@ const Planets = () => {
     const [loading, setLoading] = useState(false);
 
     const [search, setSearch] = useState('');
+
+    const [selectedPlanet, setSelectedPlanet] = useState<IPlanet | null>(null);
+
 
     useEffect(() => {
 
@@ -88,16 +129,13 @@ const Planets = () => {
                         {filteredplanet.map((planets, index) => (
                             <div key={index} className='container_person_details'>
                                 <p>Name: {planets.name}</p>
-                                <p>Rotation Period: {planets.rotation_period}</p>
-                                <p>Orbital Period: {planets.orbital_period}</p>
-                                <p>Diameter: {planets.diameter}</p>
-                                <p>Climate: {planets.climate}</p>
-                                <p>Terrain: {planets.terrain}</p>
-                                <p>Population: {planets.population}</p>
-                                <p>Climate: {planets.climate}</p>
+
                                 <div className='person_image_container'>
                                     <img className='person_image' src="/src/assets/planet.jpeg" alt="" />
                                 </div>
+
+                                <Link to="#" onClick={() => setSelectedPlanet(planets)}> <img className='loadmore' src="/src/assets/read-more.png " alt="" /></Link>
+
                             </div>
                         ))}
                     </div>
@@ -113,6 +151,8 @@ const Planets = () => {
                     </div>
                 </div>
             </div>
+            <Modal planet={selectedPlanet} onClose={() => setSelectedPlanet(null)} />
+
         </>
     );
 };

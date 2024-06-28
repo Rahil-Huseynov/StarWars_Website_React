@@ -2,19 +2,57 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './Species.css'
 
+interface ISpecies {
+    name: string;
+    classification: string;
+    designation: string;
+    average_height: string;
+    skin_colors: string;
+    hair_colors: string;
+    average_lifespan: string;
+    language: string;
+
+}
+
+
+const Modal = ({ species, onClose }: { species: ISpecies | null, onClose: () => void }) => {
+    useEffect(() => {
+        if (species) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [species]);
+
+    if (!species) return null;
+
+    return (
+        <>
+            <div className="modal-backdrop" onClick={onClose}></div>
+            <div className="modal">
+                <div className="modal_content">
+                    <span className="close" onClick={onClose} style={{ color: 'red' }}>&times;</span>
+                    <div className="modal_content_items">
+                        <p>Name: {species.name}</p>
+                        <p>Classification: {species.classification}</p>
+                        <p>Designation: {species.designation}</p>
+                        <p>Average Height: {species.average_height}</p>
+                        <p>Skin Colors: {species.skin_colors}</p>
+                        <p>Hair Colors: {species.hair_colors}</p>
+                        <p>Average Lifespan: {species.average_lifespan}</p>
+                        <p>Language: {species.language}</p>
+                        <div className='person_image_container'>
+                            <img className='person_image' src="/src/assets/Species.avif" alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
 const Species = () => {
 
-    interface ISpecies {
-        name: string;
-        classification: string;
-        designation: string;
-        average_height: string;
-        skin_colors: string;
-        hair_colors: string;
-        average_lifespan: string;
-        language: string;
-
-    }
 
     const [species, setspecies] = useState<ISpecies[]>([]);
 
@@ -23,6 +61,8 @@ const Species = () => {
     const [loading, setLoading] = useState(false);
 
     const [search, setSearch] = useState('');
+
+    const [selectedSpecies, setSelectedSpecies] = useState<ISpecies | null>(null);
 
 
     useEffect(() => {
@@ -95,16 +135,11 @@ const Species = () => {
 
                             <div key={index} className='container_person_details'>
                                 <p>Name: {species.name}</p>
-                                <p>Classification: {species.classification}</p>
-                                <p>Designation: {species.designation}</p>
-                                <p>Average Height: {species.average_height}</p>
-                                <p>Skin Colors: {species.skin_colors}</p>
-                                <p>Hair Colors: {species.hair_colors}</p>
-                                <p>Average Lifespan: {species.average_lifespan}</p>
-                                <p>Language: {species.language}</p>
                                 <div className='person_image_container'>
                                     <img className='person_image' src="/src/assets/Species.avif" alt="" />
                                 </div>
+                                <Link to="#" onClick={() => setSelectedSpecies(species)}> <img className='loadmore' src="/src/assets/read-more.png " alt="" /></Link>
+
                             </div>
                         ))}
                     </div>
@@ -120,6 +155,9 @@ const Species = () => {
                     </div>
                 </div>
             </div>
+
+            <Modal species={selectedSpecies} onClose={() => setSelectedSpecies(null)} />
+
         </>
     );
 };
