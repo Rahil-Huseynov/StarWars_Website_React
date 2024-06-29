@@ -131,7 +131,7 @@ const Planets = () => {
                                 <p>Name: {planets.name}</p>
 
                                 <div className='person_image_container'>
-                                    <img style={{background:'none'}} className='person_image' src="/src/assets/planet.jpeg" alt="" />
+                                    <img className='person_image' src="/src/assets/planet.jpeg" alt="" />
                                 </div>
 
                                 <Link to="#" onClick={() => setSelectedPlanet(planets)}> <img className='loadmore' src="/src/assets/read-more.png " alt="" /></Link>
