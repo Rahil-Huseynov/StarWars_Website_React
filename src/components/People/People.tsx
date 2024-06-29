@@ -105,14 +105,10 @@ const People = () => {
             <h1 style={{ color: 'White' }}>Star Wars People</h1>
           </div>
 
-          {!loading && page < 9 && (
-
             <div className='container_input'>
               <input className='search' type="text" placeholder="Search by name" value={search} onChange={handleSearch} />
             </div>
-
-          )}
-
+            
         </div>
 
         <div className='container_item'>

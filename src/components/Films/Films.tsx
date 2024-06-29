@@ -104,9 +104,9 @@ const Films = () => {
                         <h1 style={{ color: 'White' }}>Star Wars Films</h1>
                     </div>
 
-                    {!loading && (<div className='container_input'>
+                    <div className='container_input'>
                         <input className='search' type="text" placeholder="Search by title" value={search} onChange={handleSearch} />
-                    </div>)}
+                    </div>
 
                 </div>
 
