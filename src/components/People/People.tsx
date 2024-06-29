@@ -108,7 +108,7 @@ const People = () => {
           {!loading && page < 9 && (
 
             <div className='container_input'>
-              <input className='search' type="text" placeholder="Search by title" value={search} onChange={handleSearch} />
+              <input className='search' type="text" placeholder="Search by name" value={search} onChange={handleSearch} />
             </div>
 
           )}
